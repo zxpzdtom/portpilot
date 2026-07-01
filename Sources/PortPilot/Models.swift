@@ -108,7 +108,7 @@ enum SortMode: String, CaseIterable, Identifiable {
         case .memory:
             return AppCopy.text("内存", "Memory")
         case .process:
-            return AppCopy.text("进程", "Process")
+            return AppCopy.text("进程名", "Process")
         }
     }
 

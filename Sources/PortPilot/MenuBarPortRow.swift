@@ -10,6 +10,7 @@ struct MenuBarPortRow: View {
     let onTerminate: () -> Void
 
     @State private var isHovering = false
+    @Environment(\.colorScheme) private var colorScheme
 
     private var showsActions: Bool {
         isHovering || isSelected
@@ -87,7 +88,11 @@ struct MenuBarPortRow: View {
                 .frame(width: 3, height: isSelected ? 26 : 0)
                 .padding(.leading, 2)
         }
-        .shadow(color: .black.opacity(isSelected ? 0.09 : 0.035), radius: isSelected ? 9 : 3, x: 0, y: isSelected ? 4 : 1)
+        .overlay {
+            RoundedRectangle(cornerRadius: 9, style: .continuous)
+                .stroke(Color.white.opacity(colorScheme == .dark ? 0.05 : 0.22), lineWidth: 0.5)
+        }
+        .shadow(color: .black.opacity(isSelected ? 0.10 : 0.025), radius: isSelected ? 10 : 3, x: 0, y: isSelected ? 4 : 1)
         .contentShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
         .onHover { hovering in
             withAnimation(Motion.smoothOut(Motion.quick)) {
@@ -99,12 +104,21 @@ struct MenuBarPortRow: View {
 
     private var rowBackground: some ShapeStyle {
         if isSelected {
-            return AnyShapeStyle(Color.accentColor.opacity(0.15))
+            return AnyShapeStyle(
+                LinearGradient(
+                    colors: [
+                        Color.accentColor.opacity(colorScheme == .dark ? 0.26 : 0.16),
+                        Color.accentColor.opacity(colorScheme == .dark ? 0.16 : 0.09)
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
         }
         if isHovering {
-            return AnyShapeStyle(Color.primary.opacity(0.055))
+            return AnyShapeStyle(Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.88 : 0.96))
         }
-        return AnyShapeStyle(.thinMaterial)
+        return AnyShapeStyle(Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.72 : 0.78))
     }
 
     private var scopeColor: Color {

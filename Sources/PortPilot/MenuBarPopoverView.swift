@@ -13,12 +13,7 @@ struct MenuBarPopoverView: View {
 
     var body: some View {
         ZStack {
-            Color(nsColor: .windowBackgroundColor)
-                .overlay(alignment: .top) {
-                    Rectangle()
-                        .fill(.thinMaterial)
-                        .frame(height: 96)
-                }
+            MenuBarPopoverBackground()
 
             VStack(spacing: 10) {
                 menuHeader
@@ -108,7 +103,7 @@ struct MenuBarPopoverView: View {
                     .textCase(.uppercase)
                     .tracking(0.4)
                 Spacer()
-                HStack(spacing: 8) {
+                HStack(spacing: 6) {
                     Text(AppCopy.text("打开时刷新", "Refresh on open"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -124,7 +119,7 @@ struct MenuBarPopoverView: View {
                     )
                 }
             }
-            .padding(.trailing, 2)
+            .padding(.trailing, 8)
 
             ScrollView {
                 LazyVStack(spacing: 6) {
@@ -174,10 +169,9 @@ struct MenuBarPopoverView: View {
                 }
                 .padding(.top, 1)
                 .padding(.bottom, 1)
-                .padding(.trailing, 6)
+                .padding(.trailing, 11)
             }
             .frame(height: 276)
-            .padding(.trailing, -8)
         }
         .overlay(alignment: .topTrailing) {
             if isSortPanelVisible {

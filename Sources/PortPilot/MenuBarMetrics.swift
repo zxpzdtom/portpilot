@@ -34,6 +34,7 @@ struct CompactMetric: View {
     let value: String
     let systemImage: String
     let tint: Color
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -54,7 +55,22 @@ struct CompactMetric: View {
         }
         .padding(.horizontal, 9)
         .frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
-        .shadow(color: .black.opacity(0.06), radius: 7, x: 0, y: 2)
+        .background(metricBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 9, style: .continuous)
+                .stroke(Color.white.opacity(colorScheme == .dark ? 0.05 : 0.24), lineWidth: 0.5)
+        }
+        .shadow(color: .black.opacity(0.045), radius: 7, x: 0, y: 2)
+    }
+
+    private var metricBackground: some ShapeStyle {
+        LinearGradient(
+            colors: [
+                Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.78 : 0.92),
+                Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.62 : 0.74)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }

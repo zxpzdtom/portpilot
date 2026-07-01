@@ -4,6 +4,15 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+## 0.1.3 - 2026-07-01
+
+### Changed
+
+- Refined the menu bar popover background with a calmer layered surface treatment.
+- Improved list item surfaces, selected-row contrast, and hover depth.
+- Added a dedicated scroll gutter so the scrollbar no longer sits tight against rows.
+- Renamed the process sort label to "Process name" / "进程名" for clearer meaning.
+
 ## 0.1.2 - 2026-07-01
 
 ### Added

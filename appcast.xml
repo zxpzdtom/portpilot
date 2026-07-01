@@ -6,6 +6,16 @@
         <language>en</language>
         <link>https://github.com/zxpzdtom/portpilot/releases</link>
         <item>
+            <title>0.1.3</title>
+            <pubDate>Wed, 01 Jul 2026 18:46:13 +0800</pubDate>
+            <link>https://github.com/zxpzdtom/portpilot/releases/tag/v0.1.3</link>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>0.1.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/zxpzdtom/portpilot/releases/download/v0.1.3/PortPilot-0.1.3.zip" length="3366477" type="application/octet-stream" sparkle:edSignature="R7/me8ps3gdsFRPtHjNyfshrI26AK+H+FPThPep9hBdKQ7g97B63URCCEYJONZg02txHKK5jL9cJN+Mg1tKRAg=="/>
+        </item>
+        <item>
             <title>0.1.2</title>
             <pubDate>Wed, 01 Jul 2026 18:14:49 +0800</pubDate>
             <link>https://github.com/zxpzdtom/portpilot/releases/tag/v0.1.2</link>

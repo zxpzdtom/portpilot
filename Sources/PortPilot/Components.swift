@@ -54,6 +54,7 @@ struct AppIconTile: View {
 
 struct SearchField: View {
     @Binding var text: String
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack(spacing: 8) {
@@ -80,8 +81,11 @@ struct SearchField: View {
         }
         .padding(.horizontal, 11)
         .frame(height: 38)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .shadow(color: .black.opacity(0.08), radius: 6, x: 0, y: 2)
+        .background(
+            Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.78 : 0.86),
+            in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+        )
+        .shadow(color: .black.opacity(0.045), radius: 6, x: 0, y: 2)
     }
 }
 
