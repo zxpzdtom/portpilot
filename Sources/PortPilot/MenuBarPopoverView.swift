@@ -4,6 +4,7 @@ import SwiftUI
 
 struct MenuBarPopoverView: View {
     @ObservedObject var model: PortListModel
+    let checkForUpdates: () -> Void
     let quit: () -> Void
 
     @State private var pendingTerminateEntry: PortEntry?
@@ -220,16 +221,11 @@ struct MenuBarPopoverView: View {
                     .lineLimit(1)
                     .truncationMode(.tail)
 
-                if !model.isCheckingUpdates && (model.updateMessage == nil || model.updateReleaseURL != nil) {
-                    UpdateStatusInlineButton(
-                        hasRelease: model.updateReleaseURL != nil,
-                        action: { model.checkForUpdates() }
-                    )
+                UpdateStatusInlineButton(
+                    action: checkForUpdates
+                )
                     .transition(.opacity.combined(with: .move(edge: .leading)))
-                }
             }
-            .animation(Motion.smoothOut(Motion.quick), value: model.isCheckingUpdates)
-            .animation(Motion.smoothOut(Motion.quick), value: model.updateMessage)
 
             Spacer(minLength: 8)
 

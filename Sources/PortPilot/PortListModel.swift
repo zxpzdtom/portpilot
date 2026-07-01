@@ -13,9 +13,6 @@ final class PortListModel: ObservableObject {
     @Published var statusMessage = AppCopy.text("就绪", "Ready")
     @Published var lastUpdated: Date?
     @Published var errorMessage: String?
-    @Published var isCheckingUpdates = false
-    @Published var updateMessage: String?
-    @Published var updateReleaseURL: URL?
 
     init() {
         refresh()
@@ -45,9 +42,6 @@ final class PortListModel: ObservableObject {
     }
 
     var footerMessage: String {
-        if let updateMessage {
-            return updateMessage
-        }
         guard let lastUpdated else {
             return AppCopy.text("尚未刷新", "Not refreshed yet")
         }
@@ -95,7 +89,6 @@ final class PortListModel: ObservableObject {
         guard !isScanning else { return }
         isScanning = true
         statusMessage = AppCopy.text("正在扫描...", "Scanning...")
-        updateMessage = nil
 
         Task {
             do {
@@ -122,58 +115,6 @@ final class PortListModel: ObservableObject {
         }
     }
 
-    func checkForUpdates() {
-        if let updateReleaseURL {
-            NSWorkspace.shared.open(updateReleaseURL)
-            return
-        }
-
-        guard !isCheckingUpdates else { return }
-        guard let url = URL(string: AppLinks.latestReleaseAPI) else { return }
-
-        isCheckingUpdates = true
-        updateMessage = AppCopy.text("正在检查更新...", "Checking for updates...")
-
-        Task {
-            do {
-                var request = URLRequest(url: url)
-                request.setValue("PortPilot", forHTTPHeaderField: "User-Agent")
-                request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-
-                let (data, response) = try await URLSession.shared.data(for: request)
-                let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-
-                guard status != 404 else {
-                    updateMessage = AppCopy.text("还没有发布版本", "No releases yet")
-                    updateReleaseURL = URL(string: AppLinks.releases)
-                    isCheckingUpdates = false
-                    return
-                }
-
-                guard (200..<300).contains(status) else {
-                    throw NSError(domain: "PortPilot.Update", code: status, userInfo: [NSLocalizedDescriptionKey: "HTTP \(status)"])
-                }
-
-                let release = try JSONDecoder().decode(GitHubRelease.self, from: data)
-                let latestVersion = release.tagName.trimmingCharacters(in: CharacterSet(charactersIn: "vV"))
-                let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
-
-                if Self.compareVersions(latestVersion, currentVersion) == .orderedDescending {
-                    updateReleaseURL = URL(string: release.htmlURL)
-                    updateMessage = AppCopy.text("发现新版本 \(release.tagName)", "New version \(release.tagName) available")
-                } else {
-                    updateReleaseURL = nil
-                    updateMessage = AppCopy.text("已经是最新版本", "You're up to date")
-                }
-            } catch {
-                updateReleaseURL = nil
-                updateMessage = AppCopy.text("检查更新失败", "Update check failed")
-            }
-
-            isCheckingUpdates = false
-        }
-    }
-
     func terminateSelected(force: Bool = false) {
         guard let entry = selectedEntry else { return }
         terminate(entry: entry, force: force)
@@ -196,30 +137,5 @@ final class PortListModel: ObservableObject {
                 statusMessage = AppCopy.text("无法结束进程", "Could not terminate process")
             }
         }
-    }
-
-    private static func compareVersions(_ lhs: String, _ rhs: String) -> ComparisonResult {
-        let left = lhs.split(separator: ".").map { Int($0.filter(\.isNumber)) ?? 0 }
-        let right = rhs.split(separator: ".").map { Int($0.filter(\.isNumber)) ?? 0 }
-        let count = max(left.count, right.count)
-
-        for index in 0..<count {
-            let l = index < left.count ? left[index] : 0
-            let r = index < right.count ? right[index] : 0
-            if l < r { return .orderedAscending }
-            if l > r { return .orderedDescending }
-        }
-
-        return .orderedSame
-    }
-}
-
-struct GitHubRelease: Decodable {
-    let tagName: String
-    let htmlURL: String
-
-    enum CodingKeys: String, CodingKey {
-        case tagName = "tag_name"
-        case htmlURL = "html_url"
     }
 }

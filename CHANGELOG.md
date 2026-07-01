@@ -4,6 +4,15 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+### Added
+
+- Integrated Sparkle for native update checks, downloads, installation, cancellation, and relaunch.
+- Added a Sparkle appcast feed and generation helper script.
+
+### Changed
+
+- Replaced the previous GitHub Releases link-out update check with Sparkle's native updater UI.
+
 ## 0.1.1 - 2026-07-01
 
 ### Changed

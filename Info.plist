@@ -28,6 +28,12 @@
     <string>Copyright © 2026</string>
     <key>NSHighResolutionCapable</key>
     <true/>
+    <key>SUEnableAutomaticChecks</key>
+    <false/>
+    <key>SUFeedURL</key>
+    <string>https://raw.githubusercontent.com/zxpzdtom/portpilot/main/appcast.xml</string>
+    <key>SUPublicEDKey</key>
+    <string>sW+KT9FQ+AawDSxI545T8Dkv58AnoQFtL5grJEalCuw=</string>
     <key>NSSupportsAutomaticTermination</key>
     <true/>
     <key>NSSupportsSuddenTermination</key>

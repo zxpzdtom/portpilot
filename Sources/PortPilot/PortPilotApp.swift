@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import Sparkle
 import SwiftUI
 
 @main
@@ -27,11 +28,13 @@ final class PortPilotAppDelegate: NSObject, NSApplicationDelegate, NSPopoverDele
     private let model = PortListModel()
     private var statusItem: NSStatusItem?
     private var popover: NSPopover?
+    private var updaterController: SPUStandardUpdaterController?
     private var cancellables = Set<AnyCancellable>()
     private var keyDownMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        configureUpdater()
         configureStatusItem()
         configurePopover()
         configureKeyboardShortcuts()
@@ -58,6 +61,18 @@ final class PortPilotAppDelegate: NSObject, NSApplicationDelegate, NSPopoverDele
         }
     }
 
+    @objc private func checkForUpdates(_ sender: Any?) {
+        updaterController?.checkForUpdates(sender)
+    }
+
+    private func configureUpdater() {
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
+    }
+
     private func configureStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: 28)
         statusItem = item
@@ -82,6 +97,9 @@ final class PortPilotAppDelegate: NSObject, NSApplicationDelegate, NSPopoverDele
         popover.contentViewController = NSHostingController(
             rootView: MenuBarPopoverView(
                 model: model,
+                checkForUpdates: { [weak self] in
+                    self?.checkForUpdates(nil)
+                },
                 quit: {
                     NSApp.terminate(nil)
                 }

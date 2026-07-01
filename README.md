@@ -21,7 +21,7 @@ PortPilot helps you see which local TCP ports are listening, which process owns 
 - Open `http://localhost:<port>` in the browser.
 - Copy localhost URLs with inline success feedback.
 - Terminate a process only after confirmation.
-- Check for updates from GitHub Releases.
+- Check, download, and install updates with Sparkle.
 - Chinese / English UI, defaulting to the macOS language.
 
 ## Screens and entry points
@@ -32,7 +32,7 @@ PortPilot runs as an accessory app:
 - Refresh button: rescans listening ports.
 - Sort control: chooses field and direction.
 - Row actions: open URL, copy URL, or terminate after confirmation.
-- Footer update button: checks GitHub Releases for a newer version.
+- Footer update button: opens Sparkle's native update flow.
 
 ## Requirements
 
@@ -62,15 +62,25 @@ To choose a custom output path:
 APP_DIR="$PWD/PortPilot.app" ./build.sh
 ```
 
-## Update checks
+## Updates
 
-PortPilot checks:
+PortPilot uses [Sparkle](https://sparkle-project.org/) for updates. Automatic background checks are disabled, so updates only run when you click the footer update button. Sparkle handles the native update window, download progress, cancellation, installation, and relaunch.
+
+The appcast feed is configured in `Info.plist`:
 
 ```text
-https://api.github.com/repos/zxpzdtom/portpilot/releases/latest
+https://raw.githubusercontent.com/zxpzdtom/portpilot/main/appcast.xml
 ```
 
-If a release newer than the bundled `CFBundleShortVersionString` is found, the footer status changes and the update button opens the release page. If the repository has no releases yet, PortPilot reports that gracefully.
+The bundled `SUPublicEDKey` verifies signed update archives. Keep the matching Sparkle private key in your macOS Keychain and never commit it.
+
+After building a release zip and uploading it to GitHub Releases, regenerate the appcast:
+
+```bash
+RELEASE_TAG=v0.1.2 Scripts/generate_appcast.sh dist/releases
+```
+
+`dist/releases` should contain the release archive, for example `PortPilot-0.1.2.zip`.
 
 ## Project structure
 
@@ -91,7 +101,9 @@ Sources/PortPilot/PortPilotApp.swift        App entry point and AppKit delegate
 Assets/PortPilot.icns                       App icon
 Icon.iconset/                               Icon source set
 Info.plist                                  App bundle metadata
+appcast.xml                                 Sparkle update feed
 build.sh                                    Local build script
+Scripts/generate_appcast.sh                 Sparkle appcast generation helper
 ```
 
 ## Notes
@@ -100,6 +112,7 @@ build.sh                                    Local build script
 - Terminating a process sends `TERM` after an explicit confirmation.
 - CPU and memory are read from `ps`; port ownership is read from `lsof`.
 - The app does not auto-refresh in the background.
+- Update checks are manual; Sparkle only runs when you click the update button.
 
 ## License
 
