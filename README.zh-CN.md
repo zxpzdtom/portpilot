@@ -1,5 +1,9 @@
 # PortPilot
 
+<p align="center">
+  <img src="Assets/PortPilotIcon.png" alt="PortPilot app icon" width="96" height="96">
+</p>
+
 原生 macOS 菜单栏端口监控工具，面向本地开发和 Vibe Coding 场景。
 
 [English README](README.md) · [更新日志](CHANGELOG.md)
@@ -71,11 +75,23 @@ https://api.github.com/repos/zxpzdtom/portpilot/releases/latest
 ## 项目结构
 
 ```text
-Sources/PortPilot/main.swift   SwiftUI / AppKit 原生 app
-Assets/PortPilot.icns         应用图标
-Icon.iconset/                 图标源文件
-Info.plist                    app bundle 元数据
-build.sh                      本地构建脚本
+Sources/PortPilot/AppSupport.swift          通用文案、链接、动效、图片辅助
+Sources/PortPilot/Models.swift              端口、范围、排序模型
+Sources/PortPilot/PortScanner.swift         lsof / ps 扫描逻辑
+Sources/PortPilot/PortListModel.swift       App 状态、排序、检查更新
+Sources/PortPilot/MenuBarPopoverView.swift  菜单栏 popover UI
+Sources/PortPilot/MenuBarPortRow.swift      菜单栏列表行和行内操作
+Sources/PortPilot/MenuBarMetrics.swift      菜单栏统计卡片
+Sources/PortPilot/SortControls.swift        排序按钮和排序选项面板
+Sources/PortPilot/Components.swift          可复用 SwiftUI 组件
+Sources/PortPilot/EmptyStates.swift         空态组件
+Sources/PortPilot/FullWindowComponents.swift 旧版完整窗口组件
+Sources/PortPilot/Styles.swift              按钮样式和 ViewModifier
+Sources/PortPilot/PortPilotApp.swift        App 入口和 AppKit delegate
+Assets/PortPilot.icns                       应用图标
+Icon.iconset/                               图标源文件
+Info.plist                                  app bundle 元数据
+build.sh                                    本地构建脚本
 ```
 
 ## 说明

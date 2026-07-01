@@ -2,6 +2,13 @@
 
 All notable changes to PortPilot are documented here.
 
+## Unreleased
+
+### Changed
+
+- Split the Swift source into focused files for models, scanning, state, menu bar UI, components, styles, and app entry.
+- Added the app icon to the English and Chinese README files.
+
 ## 0.1.0 - 2026-07-01
 
 ### Added

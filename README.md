@@ -1,5 +1,9 @@
 # PortPilot
 
+<p align="center">
+  <img src="Assets/PortPilotIcon.png" alt="PortPilot app icon" width="96" height="96">
+</p>
+
 Native macOS menu bar port monitor for local development.
 
 [中文文档](README.zh-CN.md) · [Changelog](CHANGELOG.md)
@@ -71,11 +75,23 @@ If a release newer than the bundled `CFBundleShortVersionString` is found, the f
 ## Project structure
 
 ```text
-Sources/PortPilot/main.swift   Native SwiftUI / AppKit app
-Assets/PortPilot.icns         App icon
-Icon.iconset/                 Icon source set
-Info.plist                    App bundle metadata
-build.sh                      Local build script
+Sources/PortPilot/AppSupport.swift          Shared copy, links, motion, image helpers
+Sources/PortPilot/Models.swift              Port, scope, and sort models
+Sources/PortPilot/PortScanner.swift         lsof / ps scanning
+Sources/PortPilot/PortListModel.swift       App state, sorting, update checks
+Sources/PortPilot/MenuBarPopoverView.swift  Menu bar popover UI
+Sources/PortPilot/MenuBarPortRow.swift      Menu bar list rows and row actions
+Sources/PortPilot/MenuBarMetrics.swift      Menu bar metric cards
+Sources/PortPilot/SortControls.swift        Sort trigger and sort options panel
+Sources/PortPilot/Components.swift          Reusable SwiftUI components
+Sources/PortPilot/EmptyStates.swift         Empty list states
+Sources/PortPilot/FullWindowComponents.swift Legacy full-window components
+Sources/PortPilot/Styles.swift              Button styles and view modifiers
+Sources/PortPilot/PortPilotApp.swift        App entry point and AppKit delegate
+Assets/PortPilot.icns                       App icon
+Icon.iconset/                               Icon source set
+Info.plist                                  App bundle metadata
+build.sh                                    Local build script
 ```
 
 ## Notes
