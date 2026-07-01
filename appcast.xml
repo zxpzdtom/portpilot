@@ -1,9 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>PortPilot Updates</title>
         <description>Signed PortPilot releases for Sparkle.</description>
         <language>en</language>
         <link>https://github.com/zxpzdtom/portpilot/releases</link>
+        <item>
+            <title>0.1.2</title>
+            <pubDate>Wed, 01 Jul 2026 18:14:49 +0800</pubDate>
+            <link>https://github.com/zxpzdtom/portpilot/releases/tag/v0.1.2</link>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>0.1.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/zxpzdtom/portpilot/releases/download/v0.1.2/PortPilot-0.1.2.zip" length="3359418" type="application/octet-stream" sparkle:edSignature="ev6lgw41qUS46eoxKle3mT7/ZXwoMuIgEE/EjQNlfecWTTfpAf3LBf6YuU327Y05Via75zd+RoNGakwT7LgsBw=="/>
+        </item>
     </channel>
 </rss>

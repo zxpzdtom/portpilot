@@ -20,6 +20,6 @@ if [ ! -x "$SPARKLE_CACHE_DIR/bin/generate_appcast" ]; then
 fi
 
 "$SPARKLE_CACHE_DIR/bin/generate_appcast" "$RELEASE_DIR" \
-  --download-url-prefix "https://github.com/zxpzdtom/portpilot/releases/download/$RELEASE_TAG" \
+  --download-url-prefix "https://github.com/zxpzdtom/portpilot/releases/download/$RELEASE_TAG/" \
   --link "https://github.com/zxpzdtom/portpilot/releases/tag/$RELEASE_TAG" \
   -o "$ROOT_DIR/appcast.xml"

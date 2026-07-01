@@ -4,6 +4,8 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+## 0.1.2 - 2026-07-01
+
 ### Added
 
 - Integrated Sparkle for native update checks, downloads, installation, cancellation, and relaunch.
@@ -12,6 +14,7 @@ All notable changes to PortPilot are documented here.
 ### Changed
 
 - Replaced the previous GitHub Releases link-out update check with Sparkle's native updater UI.
+- Tightened the menu bar popover width and spacing.
 
 ## 0.1.1 - 2026-07-01
 
