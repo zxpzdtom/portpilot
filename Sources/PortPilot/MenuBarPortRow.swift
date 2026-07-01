@@ -16,7 +16,7 @@ struct MenuBarPortRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 7) {
                     Image(systemName: iconName)
@@ -38,7 +38,7 @@ struct MenuBarPortRow: View {
                 }
                 .padding(.leading, 23)
             }
-            .frame(width: 82, alignment: .leading)
+            .frame(width: 78, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(entry.processName)
@@ -50,7 +50,7 @@ struct MenuBarPortRow: View {
                     .lineLimit(1)
             }
 
-            Spacer(minLength: 8)
+            Spacer(minLength: 5)
 
             ZStack(alignment: .trailing) {
                 VStack(alignment: .trailing, spacing: 4) {
@@ -75,10 +75,10 @@ struct MenuBarPortRow: View {
                 .blur(radius: showsActions ? 0 : Motion.smallBlur)
                 .scaleEffect(showsActions ? 1 : Motion.iconStartScale, anchor: .trailing)
             }
-            .frame(width: 92, alignment: .trailing)
+            .frame(width: 84, alignment: .trailing)
             .animation(Motion.iconSwap(), value: showsActions)
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 9)
         .frame(height: 50)
         .background(rowBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
         .overlay(alignment: .leading) {
@@ -143,10 +143,10 @@ struct MenuBarRowActions: View {
     @State private var copyFeedbackID = UUID()
 
     var body: some View {
-        HStack(spacing: 3) {
+        HStack(spacing: 2) {
             Button(action: onOpen) {
                 Image(systemName: "safari")
-                    .frame(width: 26, height: 26)
+                    .frame(width: 25, height: 26)
             }
             .buttonStyle(RowIconButtonStyle())
             .help(AppCopy.text("打开 localhost", "Open localhost"))
@@ -163,7 +163,7 @@ struct MenuBarRowActions: View {
                         .blur(radius: didCopy ? 0 : Motion.smallBlur)
                         .scaleEffect(didCopy ? 1 : Motion.iconStartScale)
                 }
-                .frame(width: 26, height: 26)
+                .frame(width: 25, height: 26)
                 .animation(Motion.iconSwap(), value: didCopy)
             }
             .buttonStyle(CopyFeedbackButtonStyle(isCopied: didCopy))
@@ -171,7 +171,7 @@ struct MenuBarRowActions: View {
 
             Button(action: onTerminate) {
                 Image(systemName: "xmark.octagon")
-                    .frame(width: 26, height: 26)
+                    .frame(width: 25, height: 26)
             }
             .buttonStyle(RowDangerIconButtonStyle())
             .help(AppCopy.text("结束进程（需确认）", "Terminate process (confirmation required)"))

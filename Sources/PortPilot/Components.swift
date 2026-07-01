@@ -78,7 +78,7 @@ struct SearchField: View {
                 .transition(.opacity.combined(with: .scale(scale: 0.92)))
             }
         }
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 11)
         .frame(height: 38)
         .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
         .shadow(color: .black.opacity(0.08), radius: 6, x: 0, y: 2)

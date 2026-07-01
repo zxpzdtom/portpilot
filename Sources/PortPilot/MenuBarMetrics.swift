@@ -21,7 +21,7 @@ struct MenuBarStatsStrip: View {
     }
 
     var body: some View {
-        HStack(spacing: 7) {
+        HStack(spacing: 6) {
             CompactMetric(title: AppCopy.text("端口", "Ports"), value: "\(entries.count)", systemImage: "dot.radiowaves.left.and.right", tint: .blue)
             CompactMetric(title: "CPU", value: String(format: "%.1f%%", totalCPU), systemImage: "speedometer", tint: .orange)
             CompactMetric(title: AppCopy.text("内存", "Memory"), value: ByteCountFormatter.string(fromByteCount: totalMemory, countStyle: .memory), systemImage: "memorychip", tint: .purple)
@@ -52,10 +52,9 @@ struct CompactMetric: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.76)
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, 9)
         .frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
         .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
         .shadow(color: .black.opacity(0.06), radius: 7, x: 0, y: 2)
     }
 }
-

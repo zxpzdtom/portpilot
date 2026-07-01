@@ -92,7 +92,7 @@ final class PortPilotAppDelegate: NSObject, NSApplicationDelegate, NSPopoverDele
         let popover = NSPopover()
         popover.behavior = .transient
         popover.animates = true
-        popover.contentSize = NSSize(width: 440, height: 524)
+        popover.contentSize = NSSize(width: 408, height: 524)
         popover.delegate = self
         popover.contentViewController = NSHostingController(
             rootView: MenuBarPopoverView(

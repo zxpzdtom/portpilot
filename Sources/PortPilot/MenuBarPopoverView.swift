@@ -35,10 +35,11 @@ struct MenuBarPopoverView: View {
 
                 footer
             }
-            .padding(14)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 14)
             .padding(.top, 8)
         }
-        .frame(width: 440, height: 524)
+        .frame(width: 408, height: 524)
         .onAppear {
             withAnimation(Motion.smoothOut(Motion.fast)) {
                 didAppear = true
