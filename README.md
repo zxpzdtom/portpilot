@@ -69,7 +69,7 @@ PortPilot uses [Sparkle](https://sparkle-project.org/) for updates. Automatic ba
 The appcast feed is configured in `Info.plist`:
 
 ```text
-https://raw.githubusercontent.com/zxpzdtom/portpilot/main/appcast.xml
+https://raw.githubusercontent.com/zxpzdtom/portpilot/refs/heads/main/appcast.xml
 ```
 
 The bundled `SUPublicEDKey` verifies signed update archives. Keep the matching Sparkle private key in your macOS Keychain and never commit it.
