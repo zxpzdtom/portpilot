@@ -36,6 +36,10 @@ PortPilot 作为 accessory app 运行：
 - 默认构建 Apple Silicon 版本：`arm64-apple-macosx14.0`。
 - 安装 Xcode Command Line Tools，并可使用 `swiftc`。
 
+## 下载
+
+可以从 [GitHub Releases](https://github.com/zxpzdtom/portpilot/releases) 下载开发签名构建，也可以按下面步骤本地构建。
+
 ## 构建
 
 ```bash

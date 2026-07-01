@@ -22,4 +22,4 @@ All notable changes to PortPilot are documented here.
 ### Notes
 
 - PortPilot does not auto-refresh in the background.
-- No release artifacts are attached yet; build locally with `./build.sh`.
+- The release asset is an ad-hoc signed macOS app bundle zip.

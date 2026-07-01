@@ -36,6 +36,10 @@ PortPilot runs as an accessory app:
 - Apple Silicon build target by default (`arm64-apple-macosx14.0`).
 - Xcode Command Line Tools with `swiftc`.
 
+## Download
+
+Download signed development builds from [GitHub Releases](https://github.com/zxpzdtom/portpilot/releases), or build locally with the steps below.
+
 ## Build
 
 ```bash
