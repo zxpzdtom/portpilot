@@ -212,39 +212,51 @@ struct MenuBarPopoverView: View {
     }
 
     private var footer: some View {
-        HStack(spacing: 8) {
-            Text(model.footerMessage)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .truncationMode(.tail)
+        HStack(spacing: 7) {
+            HStack(spacing: 7) {
+                Text(model.footerMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
 
-            Spacer()
-
-            Button {
-                model.checkForUpdates()
-            } label: {
-                RefreshIcon(isScanning: model.isCheckingUpdates)
-                    .frame(width: 24, height: 24)
-            }
-            .buttonStyle(RowIconButtonStyle())
-            .disabled(model.isCheckingUpdates)
-            .help(model.updateReleaseURL == nil ? AppCopy.text("检查更新", "Check for updates") : AppCopy.text("打开新版本", "Open new version"))
-
-            Button {
-                quit()
-            } label: {
-                HStack(spacing: 6) {
-                    Text(AppCopy.text("退出", "Quit"))
-                    Text("⌘Q")
-                        .font(.system(size: 9, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.tertiary)
+                if !model.isCheckingUpdates && (model.updateMessage == nil || model.updateReleaseURL != nil) {
+                    UpdateStatusInlineButton(
+                        hasRelease: model.updateReleaseURL != nil,
+                        action: { model.checkForUpdates() }
+                    )
+                    .transition(.opacity.combined(with: .move(edge: .leading)))
                 }
             }
-            .buttonStyle(FooterQuitButtonStyle())
+            .animation(Motion.smoothOut(Motion.quick), value: model.isCheckingUpdates)
+            .animation(Motion.smoothOut(Motion.quick), value: model.updateMessage)
+
+            Spacer(minLength: 8)
+
+            HStack(spacing: 5) {
+                Button {
+                    open(AppLinks.repository)
+                } label: {
+                    Text(AppCopy.text("关于", "About"))
+                }
+                .buttonStyle(FooterQuitButtonStyle())
+                .help(AppCopy.text("打开 GitHub 仓库", "Open GitHub repository"))
+
+                Button {
+                    quit()
+                } label: {
+                    HStack(spacing: 5) {
+                        Text(AppCopy.text("退出", "Quit"))
+                        Text("⌘Q")
+                            .font(.system(size: 8, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+                .buttonStyle(FooterQuitButtonStyle())
+            }
         }
-        .frame(height: 28)
-        .offset(y: -2)
+        .frame(height: 26)
+        .offset(y: -4)
         .staggeredAppear(delay: 0.2)
     }
 
@@ -258,4 +270,3 @@ struct MenuBarPopoverView: View {
         NSPasteboard.general.setString(text, forType: .string)
     }
 }
-

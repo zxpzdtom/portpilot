@@ -207,9 +207,9 @@ struct FooterQuitButtonStyle: ButtonStyle {
         configuration.label
             .font(.system(size: 12, weight: .semibold))
             .foregroundStyle(.secondary)
-            .padding(.horizontal, 9)
-            .frame(height: 26)
-            .background(Color.primary.opacity(configuration.isPressed ? 0.10 : 0.045), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+            .padding(.horizontal, 8)
+            .frame(height: 22)
+            .background(Color.primary.opacity(configuration.isPressed ? 0.09 : 0.032), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
             .scaleEffect(configuration.isPressed ? Motion.pressScale : 1)
             .animation(Motion.smoothOut(Motion.quick), value: configuration.isPressed)
     }

@@ -85,3 +85,30 @@ struct SearchField: View {
     }
 }
 
+struct UpdateStatusInlineButton: View {
+    let hasRelease: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: hasRelease ? "arrow.up.right" : "arrow.down.circle")
+                    .font(.system(size: 10, weight: .semibold))
+                    .frame(width: 11)
+                Text(hasRelease ? AppCopy.text("打开", "Open") : AppCopy.text("检查更新", "Check"))
+                    .font(.system(size: 11, weight: .semibold))
+            }
+            .foregroundStyle(hasRelease ? Color.accentColor : Color.secondary)
+            .padding(.horizontal, 5)
+            .frame(height: 21)
+            .background(background, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .help(hasRelease ? AppCopy.text("打开新版本", "Open new version") : AppCopy.text("检查更新", "Check for updates"))
+        .contentShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+    }
+
+    private var background: Color {
+        hasRelease ? Color.accentColor.opacity(0.09) : Color.primary.opacity(0.028)
+    }
+}
