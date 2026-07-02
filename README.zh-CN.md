@@ -6,7 +6,7 @@
 
 原生 macOS 菜单栏端口监控工具，面向本地开发和 Vibe Coding 场景。
 
-[English README](README.md) · [更新日志](CHANGELOG.md)
+[官网](https://portpilot-d82.pages.dev) · [English README](README.md) · [更新日志](CHANGELOG.md)
 
 PortPilot 可以帮你快速看清本机有哪些 TCP 端口正在监听、每个端口属于哪个进程、进程运行了多久，以及当前 CPU / 内存占用。它适合处理本地开发时经常出现的 dev server、代理、辅助进程和临时服务。
 
