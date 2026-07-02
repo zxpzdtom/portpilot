@@ -6,7 +6,7 @@
 
 Native macOS menu bar port monitor for local development.
 
-[Website](https://portpilot-d82.pages.dev) · [中文文档](README.zh-CN.md) · [Changelog](CHANGELOG.md)
+[Website](https://portpilot.anyask.dev) · [中文文档](README.zh-CN.md) · [Changelog](CHANGELOG.md)
 
 PortPilot helps you see which local TCP ports are listening, which process owns each port, how long the process has been running, and its current CPU / memory footprint. It is designed for vibe coding sessions where dev servers, proxies, and helper processes come and go quickly.
 
