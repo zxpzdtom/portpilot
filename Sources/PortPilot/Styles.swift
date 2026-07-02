@@ -95,10 +95,22 @@ struct RefreshIcon: View {
     let isScanning: Bool
 
     var body: some View {
-        Image(systemName: "arrow.clockwise")
-            .font(.system(size: 14, weight: .semibold))
-            .rotationEffect(.degrees(isScanning ? 360 : 0))
-            .animation(isScanning ? Motion.linear(0.8).repeatForever(autoreverses: false) : Motion.smoothOut(Motion.quick), value: isScanning)
+        ZStack {
+            if isScanning {
+                ProgressView()
+                    .controlSize(.small)
+                    .scaleEffect(0.62)
+                    .frame(width: 18, height: 18, alignment: .center)
+                    .transition(.opacity.combined(with: .scale(scale: 0.72)))
+            } else {
+                Image(systemName: "arrow.2.circlepath")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 18, height: 18, alignment: .center)
+                    .transition(.opacity.combined(with: .scale(scale: 0.72)))
+            }
+        }
+        .frame(width: 30, height: 30, alignment: .center)
+        .animation(Motion.smoothOut(Motion.quick), value: isScanning)
     }
 }
 

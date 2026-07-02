@@ -10,31 +10,43 @@ struct MenuBarPopoverView: View {
     @State private var pendingTerminateEntry: PortEntry?
     @State private var didAppear = false
     @State private var isSortPanelVisible = false
+    private let popoverCornerRadius: CGFloat = 18
+    private let shadowInset: CGFloat = 10
 
     var body: some View {
         ZStack {
-            MenuBarPopoverBackground()
+            ZStack {
+                MenuBarPopoverBackground()
 
-            VStack(spacing: 10) {
-                menuHeader
-                    .staggeredAppear(delay: 0)
+                VStack(spacing: 10) {
+                    menuHeader
+                        .staggeredAppear(delay: 0)
 
-                SearchField(text: $model.query)
-                    .staggeredAppear(delay: 0.04)
+                    SearchField(text: $model.query)
+                        .staggeredAppear(delay: 0.04)
 
-                MenuBarStatsStrip(entries: model.entries)
-                    .staggeredAppear(delay: 0.08)
+                    MenuBarStatsStrip(entries: model.entries)
+                        .staggeredAppear(delay: 0.08)
 
-                portList
-                    .staggeredAppear(delay: 0.12)
+                    portList
+                        .staggeredAppear(delay: 0.12)
 
-                footer
+                    footer
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 14)
+                .padding(.top, 8)
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 14)
-            .padding(.top, 8)
+            .frame(width: 408, height: 524)
+            .clipShape(RoundedRectangle(cornerRadius: popoverCornerRadius, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: popoverCornerRadius, style: .continuous)
+                    .strokeBorder(Color.primary.opacity(0.13), lineWidth: 0.8)
+            }
+            .shadow(color: .black.opacity(0.13), radius: 14, x: 0, y: 8)
+            .shadow(color: .black.opacity(0.08), radius: 3, x: 0, y: 1)
         }
-        .frame(width: 408, height: 524)
+        .padding(shadowInset)
         .onAppear {
             withAnimation(Motion.smoothOut(Motion.fast)) {
                 didAppear = true

@@ -1,6 +1,7 @@
 .DS_Store
 .build/
 .sparkle/
+.wrangler/
 dist/
 *.xcuserdata/
 *.xcuserstate
