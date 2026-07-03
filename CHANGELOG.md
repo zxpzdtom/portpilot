@@ -9,6 +9,7 @@ All notable changes to PortPilot are documented here.
 ### Changed
 
 - Updated the landing page product mock to match the current menu bar UI, including real process icons, fallback CLI icons, PID metadata, runtime sorting, and current scope labels.
+- Replaced the website browser tab favicon with the PortPilot app icon.
 - Tightened the menu bar popover footer spacing for a more balanced bottom edge.
 
 ## 0.1.4 - 2026-07-03
