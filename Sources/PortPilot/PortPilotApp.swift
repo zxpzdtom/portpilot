@@ -27,7 +27,7 @@ struct PortPilotApp: App {
 final class PortPilotAppDelegate: NSObject, NSApplicationDelegate {
     private enum PopoverPanelLayout {
         static let contentSize = NSSize(width: 408, height: 524)
-        static let shadowInset: CGFloat = 10
+        static let shadowInset: CGFloat = 8
         static let panelSize = NSSize(width: contentSize.width + shadowInset * 2, height: contentSize.height + shadowInset * 2)
     }
 

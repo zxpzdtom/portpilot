@@ -6,7 +6,7 @@ import SwiftUI
 final class PortListModel: ObservableObject {
     @Published var entries: [PortEntry] = []
     @Published var query = ""
-    @Published var sortMode: SortMode = .port
+    @Published var sortMode: SortMode = .runtime
     @Published var sortDirection: SortDirection = .ascending
     @Published var selectedID: PortEntry.ID?
     @Published var isScanning = false

@@ -15,9 +15,6 @@ struct SortControl: View {
                 Text(sortMode.label)
                     .font(.caption.weight(.semibold))
                     .lineLimit(1)
-                Text(sortDirection.shortLabel)
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.tertiary)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 8, weight: .bold))
                     .rotationEffect(.degrees(isExpanded ? 180 : 0))
@@ -36,6 +33,7 @@ struct SortOptionsPanel: View {
     let selectedDirection: SortDirection
     let onSelectMode: (SortMode) -> Void
     let onSelectDirection: (SortDirection) -> Void
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -54,7 +52,7 @@ struct SortOptionsPanel: View {
             }
 
             Divider()
-                .opacity(0.45)
+                .overlay(Color.primary.opacity(colorScheme == .dark ? 0.14 : 0.055))
 
             HStack(spacing: 5) {
                 ForEach(SortDirection.allCases) { direction in
@@ -73,18 +71,34 @@ struct SortOptionsPanel: View {
         }
         .padding(7)
         .frame(width: 170)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 13, style: .continuous))
+        .background(panelBackground, in: RoundedRectangle(cornerRadius: 13, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 13, style: .continuous)
-                .stroke(Color.primary.opacity(0.06), lineWidth: 1)
+                .stroke(Color.primary.opacity(colorScheme == .dark ? 0.10 : 0.060), lineWidth: 0.7)
         }
-        .shadow(color: .black.opacity(0.14), radius: 18, x: 0, y: 10)
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.20 : 0.075), radius: 14, x: 0, y: 8)
+    }
+
+    private var panelBackground: some ShapeStyle {
+        LinearGradient(
+            colors: [
+                colorScheme == .dark
+                    ? Color(nsColor: .controlBackgroundColor)
+                    : Color(red: 0.984, green: 0.989, blue: 0.995),
+                colorScheme == .dark
+                    ? Color(nsColor: .controlBackgroundColor).opacity(0.92)
+                    : Color(red: 0.958, green: 0.966, blue: 0.974)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }
 
 struct SortOptionRow: View {
     let mode: SortMode
     let isSelected: Bool
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack(spacing: 8) {
@@ -114,8 +128,16 @@ struct SortOptionRow: View {
         .padding(.leading, 5)
         .padding(.trailing, 8)
         .frame(height: 32)
-        .background(isSelected ? Color.accentColor.opacity(0.09) : Color.clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(rowBackground, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
-}
 
+    private var rowBackground: Color {
+        if isSelected {
+            return colorScheme == .dark
+                ? Color.accentColor.opacity(0.18)
+                : Color(red: 0.900, green: 0.940, blue: 1.000)
+        }
+        return .clear
+    }
+}

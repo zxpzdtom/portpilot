@@ -8,9 +8,11 @@ struct MenuBarPortRow: View {
     let onOpen: () -> Void
     let onCopy: () -> Void
     let onTerminate: () -> Void
+    let tooltipPlacement: ActionTooltipPlacement
 
     @State private var isHovering = false
     @Environment(\.colorScheme) private var colorScheme
+    @ObservedObject private var iconStore = ProcessIconStore.shared
 
     private var showsActions: Bool {
         isHovering || isSelected
@@ -18,12 +20,13 @@ struct MenuBarPortRow: View {
 
     var body: some View {
         HStack(spacing: 8) {
+            ProcessIconView(
+                image: iconStore.image(for: entry)
+            )
+            .frame(width: 32, height: 32)
+
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 7) {
-                    Image(systemName: iconName)
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(scopeColor)
-                        .frame(width: 16)
                     Text(verbatim: "\(entry.port)")
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .monospacedDigit()
@@ -36,19 +39,26 @@ struct MenuBarPortRow: View {
                     Text(entry.scopeLabel)
                         .font(.caption2.weight(.semibold))
                         .foregroundStyle(scopeColor)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.74)
                 }
-                .padding(.leading, 23)
             }
-            .frame(width: 78, alignment: .leading)
+            .frame(width: 60, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(entry.processName)
                     .font(.system(size: 13, weight: .semibold))
                     .lineLimit(1)
-                Text(entry.runtimeLabel)
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
+                HStack(spacing: 5) {
+                    Text(verbatim: "PID \(entry.pid)")
+                    Text("·")
+                        .foregroundStyle(.tertiary)
+                    Text(entry.runtimeLabel)
+                        .lineLimit(1)
+                }
+                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
             }
 
             Spacer(minLength: 5)
@@ -70,13 +80,14 @@ struct MenuBarPortRow: View {
                 MenuBarRowActions(
                     onOpen: onOpen,
                     onCopy: onCopy,
-                    onTerminate: onTerminate
+                    onTerminate: onTerminate,
+                    tooltipPlacement: tooltipPlacement
                 )
                 .opacity(showsActions ? 1 : 0)
                 .blur(radius: showsActions ? 0 : Motion.smallBlur)
                 .scaleEffect(showsActions ? 1 : Motion.iconStartScale, anchor: .trailing)
             }
-            .frame(width: 84, alignment: .trailing)
+            .frame(width: 72, alignment: .trailing)
             .animation(Motion.iconSwap(), value: showsActions)
         }
         .padding(.horizontal, 9)
@@ -90,15 +101,19 @@ struct MenuBarPortRow: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .stroke(Color.white.opacity(colorScheme == .dark ? 0.05 : 0.22), lineWidth: 0.5)
+                .stroke(Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.045), lineWidth: 0.6)
         }
-        .shadow(color: .black.opacity(isSelected ? 0.10 : 0.025), radius: isSelected ? 10 : 3, x: 0, y: isSelected ? 4 : 1)
+        .shadow(color: .black.opacity(isSelected ? 0.060 : 0.030), radius: isSelected ? 7 : 4, x: 0, y: isSelected ? 2 : 1)
         .contentShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
         .onHover { hovering in
             withAnimation(Motion.smoothOut(Motion.quick)) {
                 isHovering = hovering
             }
         }
+        .onAppear {
+            iconStore.loadIconIfNeeded(for: entry)
+        }
+        .zIndex(isHovering ? 200 : (isSelected ? 100 : 0))
         .animation(Motion.smoothOut(Motion.quick), value: isSelected)
     }
 
@@ -107,8 +122,9 @@ struct MenuBarPortRow: View {
             return AnyShapeStyle(
                 LinearGradient(
                     colors: [
-                        Color.accentColor.opacity(colorScheme == .dark ? 0.26 : 0.16),
-                        Color.accentColor.opacity(colorScheme == .dark ? 0.16 : 0.09)
+                        selectedScopeSurface,
+                        rowSelectedMidSurface,
+                        rowSelectedEndSurface
                     ],
                     startPoint: .leading,
                     endPoint: .trailing
@@ -116,9 +132,9 @@ struct MenuBarPortRow: View {
             )
         }
         if isHovering {
-            return AnyShapeStyle(Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.88 : 0.96))
+            return AnyShapeStyle(rowHoverSurface)
         }
-        return AnyShapeStyle(Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.72 : 0.78))
+        return AnyShapeStyle(rowSurface)
     }
 
     private var scopeColor: Color {
@@ -132,19 +148,65 @@ struct MenuBarPortRow: View {
         }
     }
 
-    private var iconName: String {
-        switch entry.appHint {
-        case "Vite", "Next.js", "Nuxt", "Webpack":
-            return "bolt.fill"
-        case "Expo":
-            return "iphone"
-        case "Python", "Django", "Flask", "Uvicorn":
-            return "terminal"
-        case "Rails", "Ruby":
-            return "diamond"
-        default:
-            return "network"
+    private var rowSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor).opacity(0.90)
+            : Color(red: 0.988, green: 0.990, blue: 0.994)
+    }
+
+    private var rowHoverSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor)
+            : Color(red: 0.996, green: 0.997, blue: 0.999)
+    }
+
+    private var rowSelectedMidSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor)
+            : Color(red: 0.982, green: 0.987, blue: 0.992)
+    }
+
+    private var rowSelectedEndSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor).opacity(0.92)
+            : Color(red: 0.970, green: 0.978, blue: 0.987)
+    }
+
+    private var selectedScopeSurface: Color {
+        if colorScheme == .dark {
+            return scopeColor.opacity(0.18)
         }
+
+        switch entry.scope {
+        case .local:
+            return Color(red: 0.914, green: 0.976, blue: 0.938)
+        case .all:
+            return Color(red: 1.000, green: 0.936, blue: 0.882)
+        case .host:
+            return Color(red: 0.910, green: 0.950, blue: 1.000)
+        }
+    }
+
+}
+
+struct ProcessIconView: View {
+    let image: NSImage
+
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        Image(nsImage: image)
+            .resizable()
+            .interpolation(.high)
+            .scaledToFit()
+            .frame(width: 28, height: 28)
+            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .stroke(Color.black.opacity(colorScheme == .dark ? 0 : 0.10), lineWidth: 0.5)
+            }
+            .frame(width: 32, height: 32)
+            .animation(Motion.iconSwap(), value: ObjectIdentifier(image))
     }
 }
 
@@ -152,43 +214,50 @@ struct MenuBarRowActions: View {
     let onOpen: () -> Void
     let onCopy: () -> Void
     let onTerminate: () -> Void
+    let tooltipPlacement: ActionTooltipPlacement
 
     @State private var didCopy = false
     @State private var copyFeedbackID = UUID()
 
     var body: some View {
         HStack(spacing: 2) {
-            Button(action: onOpen) {
-                Image(systemName: "safari")
-                    .frame(width: 25, height: 26)
-            }
-            .buttonStyle(RowIconButtonStyle())
-            .help(AppCopy.text("打开 localhost", "Open localhost"))
-
-            Button(action: copyWithFeedback) {
-                ZStack {
-                    Image(systemName: "doc.on.doc")
-                        .opacity(didCopy ? 0 : 1)
-                        .blur(radius: didCopy ? Motion.smallBlur : 0)
-                        .scaleEffect(didCopy ? Motion.iconStartScale : 1)
-
-                    Image(systemName: "checkmark.circle.fill")
-                        .opacity(didCopy ? 1 : 0)
-                        .blur(radius: didCopy ? 0 : Motion.smallBlur)
-                        .scaleEffect(didCopy ? 1 : Motion.iconStartScale)
+            ActionTooltip(title: AppCopy.text("打开", "Open"), placement: tooltipPlacement) {
+                Button(action: onOpen) {
+                    Image(systemName: "safari")
+                        .frame(width: 25, height: 26)
                 }
-                .frame(width: 25, height: 26)
-                .animation(Motion.iconSwap(), value: didCopy)
+                .buttonStyle(RowIconButtonStyle())
+                .accessibilityLabel(AppCopy.text("打开 localhost", "Open localhost"))
             }
-            .buttonStyle(CopyFeedbackButtonStyle(isCopied: didCopy))
-            .help(didCopy ? AppCopy.text("已复制", "Copied") : AppCopy.text("复制 URL", "Copy URL"))
 
-            Button(action: onTerminate) {
-                Image(systemName: "xmark.octagon")
+            ActionTooltip(title: didCopy ? AppCopy.text("已复制", "Copied") : AppCopy.text("复制", "Copy"), placement: tooltipPlacement) {
+                Button(action: copyWithFeedback) {
+                    ZStack {
+                        Image(systemName: "doc.on.doc")
+                            .opacity(didCopy ? 0 : 1)
+                            .blur(radius: didCopy ? Motion.smallBlur : 0)
+                            .scaleEffect(didCopy ? Motion.iconStartScale : 1)
+
+                        Image(systemName: "checkmark.circle.fill")
+                            .opacity(didCopy ? 1 : 0)
+                            .blur(radius: didCopy ? 0 : Motion.smallBlur)
+                            .scaleEffect(didCopy ? 1 : Motion.iconStartScale)
+                    }
                     .frame(width: 25, height: 26)
+                    .animation(Motion.iconSwap(), value: didCopy)
+                }
+                .buttonStyle(CopyFeedbackButtonStyle(isCopied: didCopy))
+                .accessibilityLabel(didCopy ? AppCopy.text("已复制", "Copied") : AppCopy.text("复制 URL", "Copy URL"))
             }
-            .buttonStyle(RowDangerIconButtonStyle())
-            .help(AppCopy.text("结束进程（需确认）", "Terminate process (confirmation required)"))
+
+            ActionTooltip(title: AppCopy.text("结束", "Terminate"), placement: tooltipPlacement) {
+                Button(action: onTerminate) {
+                    Image(systemName: "xmark.octagon")
+                        .frame(width: 25, height: 26)
+                }
+                .buttonStyle(RowDangerIconButtonStyle())
+                .accessibilityLabel(AppCopy.text("结束进程（需确认）", "Terminate process (confirmation required)"))
+            }
         }
     }
 
@@ -210,5 +279,86 @@ struct MenuBarRowActions: View {
                 }
             }
         }
+    }
+}
+
+enum ActionTooltipPlacement {
+    case above
+    case below
+
+    var alignment: Alignment {
+        switch self {
+        case .above:
+            return .top
+        case .below:
+            return .bottom
+        }
+    }
+
+    var offsetY: CGFloat {
+        switch self {
+        case .above:
+            return -24
+        case .below:
+            return 24
+        }
+    }
+
+    var scaleAnchor: UnitPoint {
+        switch self {
+        case .above:
+            return .bottom
+        case .below:
+            return .top
+        }
+    }
+}
+
+struct ActionTooltip<Content: View>: View {
+    let title: String
+    let placement: ActionTooltipPlacement
+    @ViewBuilder let content: Content
+
+    @State private var isHovering = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        content
+            .overlay(alignment: placement.alignment) {
+                if isHovering {
+                    Text(title)
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .padding(.horizontal, 7)
+                        .frame(height: 22)
+                        .background(tooltipBackground)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                .strokeBorder(Color.primary.opacity(colorScheme == .dark ? 0.10 : 0.07), lineWidth: 0.6)
+                        }
+                        .shadow(color: .black.opacity(colorScheme == .dark ? 0.18 : 0.08), radius: 8, x: 0, y: 4)
+                        .offset(y: placement.offsetY)
+                        .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: placement.scaleAnchor)))
+                        .zIndex(2)
+                }
+            }
+            .onHover { hovering in
+                let animation = reduceMotion
+                    ? Animation.linear(duration: 0.01)
+                    : Motion.smoothOut(hovering ? Motion.quick : Motion.micro).delay(hovering ? Motion.micro : 0)
+                withAnimation(animation) {
+                    isHovering = hovering
+                }
+            }
+    }
+
+    private var tooltipBackground: some ShapeStyle {
+        AnyShapeStyle(
+            Color(nsColor: colorScheme == .dark ? .controlBackgroundColor : .windowBackgroundColor)
+                .opacity(colorScheme == .dark ? 0.94 : 0.96)
+        )
     }
 }

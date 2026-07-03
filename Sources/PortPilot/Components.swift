@@ -82,10 +82,20 @@ struct SearchField: View {
         .padding(.horizontal, 11)
         .frame(height: 38)
         .background(
-            Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.78 : 0.86),
+            searchBackground,
             in: RoundedRectangle(cornerRadius: 8, style: .continuous)
         )
-        .shadow(color: .black.opacity(0.045), radius: 6, x: 0, y: 2)
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.055), lineWidth: 0.6)
+        }
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.08 : 0.035), radius: 5, x: 0, y: 2)
+    }
+
+    private var searchBackground: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor)
+            : Color(red: 0.992, green: 0.994, blue: 0.997)
     }
 }
 

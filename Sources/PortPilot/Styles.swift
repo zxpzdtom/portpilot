@@ -32,6 +32,7 @@ struct SortControlButtonStyle: ButtonStyle {
 
 struct SortDirectionButtonStyle: ButtonStyle {
     let isSelected: Bool
+    @Environment(\.colorScheme) private var colorScheme
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -44,9 +45,14 @@ struct SortDirectionButtonStyle: ButtonStyle {
 
     private func background(configuration: Configuration) -> Color {
         if isSelected {
-            return Color.accentColor.opacity(configuration.isPressed ? 0.17 : 0.11)
+            if colorScheme == .dark {
+                return Color.accentColor.opacity(configuration.isPressed ? 0.22 : 0.16)
+            }
+            return Color(red: 0.900, green: 0.940, blue: 1.000).opacity(configuration.isPressed ? 0.92 : 1)
         }
-        return Color.primary.opacity(configuration.isPressed ? 0.08 : 0.035)
+        return colorScheme == .dark
+            ? Color.primary.opacity(configuration.isPressed ? 0.10 : 0.045)
+            : Color(red: 0.930, green: 0.938, blue: 0.946).opacity(configuration.isPressed ? 0.90 : 0.72)
     }
 }
 

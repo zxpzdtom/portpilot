@@ -20,7 +20,7 @@ struct PortEntry: Identifiable, Hashable {
         if address.hasPrefix("127.0.0.1") || address.hasPrefix("localhost") || address.hasPrefix("[::1]") {
             return .local
         }
-        if address.hasPrefix("*") || address.hasPrefix("[::]") {
+        if address.hasPrefix("*") || address.hasPrefix("0.0.0.0") || address.hasPrefix("[::]") {
             return .all
         }
         return .host
@@ -71,11 +71,11 @@ enum PortScope: String, Hashable {
     var label: String {
         switch self {
         case .local:
-            return AppCopy.text("本机", "Local")
+            return AppCopy.text("仅本机", "Local only")
         case .all:
-            return AppCopy.text("全部", "All")
+            return AppCopy.text("全网卡", "All interfaces")
         case .host:
-            return AppCopy.text("主机", "Host")
+            return AppCopy.text("指定IP", "Specific IP")
         }
     }
 }

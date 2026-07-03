@@ -11,29 +11,32 @@ struct MenuBarPopoverView: View {
     @State private var didAppear = false
     @State private var isSortPanelVisible = false
     private let popoverCornerRadius: CGFloat = 18
-    private let shadowInset: CGFloat = 10
+    private let shadowInset: CGFloat = 8
 
     var body: some View {
         ZStack {
             ZStack {
                 MenuBarPopoverBackground()
 
-                VStack(spacing: 10) {
+                VStack(spacing: 8) {
                     menuHeader
+                        .padding(.horizontal, 12)
                         .staggeredAppear(delay: 0)
 
                     SearchField(text: $model.query)
+                        .padding(.horizontal, 12)
                         .staggeredAppear(delay: 0.04)
 
                     MenuBarStatsStrip(entries: model.entries)
+                        .padding(.horizontal, 12)
                         .staggeredAppear(delay: 0.08)
 
                     portList
                         .staggeredAppear(delay: 0.12)
 
                     footer
+                        .padding(.horizontal, 12)
                 }
-                .padding(.horizontal, 12)
                 .padding(.vertical, 14)
                 .padding(.top, 8)
             }
@@ -43,8 +46,6 @@ struct MenuBarPopoverView: View {
                 RoundedRectangle(cornerRadius: popoverCornerRadius, style: .continuous)
                     .strokeBorder(Color.primary.opacity(0.13), lineWidth: 0.8)
             }
-            .shadow(color: .black.opacity(0.13), radius: 14, x: 0, y: 8)
-            .shadow(color: .black.opacity(0.08), radius: 3, x: 0, y: 1)
         }
         .padding(shadowInset)
         .onAppear {
@@ -107,7 +108,7 @@ struct MenuBarPopoverView: View {
     }
 
     private var portList: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(AppCopy.text("监听端口", "Listening ports"))
                     .font(.caption.weight(.semibold))
@@ -116,9 +117,6 @@ struct MenuBarPopoverView: View {
                     .tracking(0.4)
                 Spacer()
                 HStack(spacing: 6) {
-                    Text(AppCopy.text("打开时刷新", "Refresh on open"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                     SortControl(
                         sortMode: model.sortMode,
                         sortDirection: model.sortDirection,
@@ -131,6 +129,7 @@ struct MenuBarPopoverView: View {
                     )
                 }
             }
+            .padding(.horizontal, 12)
             .padding(.trailing, 8)
 
             ScrollView {
@@ -144,7 +143,8 @@ struct MenuBarPopoverView: View {
                             onTerminate: {
                                 model.selectedID = entry.id
                                 pendingTerminateEntry = entry
-                            }
+                            },
+                            tooltipPlacement: .above
                         )
                             .onTapGesture {
                                 withAnimation(Motion.smoothOut(Motion.quick)) {
@@ -179,9 +179,9 @@ struct MenuBarPopoverView: View {
                             .padding(.bottom, 18)
                     }
                 }
-                .padding(.top, 1)
+                .padding(.top, 4)
                 .padding(.bottom, 1)
-                .padding(.trailing, 11)
+                .padding(.horizontal, 12)
             }
             .frame(height: 276)
         }
@@ -211,7 +211,7 @@ struct MenuBarPopoverView: View {
                         }
                     )
                     .padding(.top, 30)
-                    .padding(.trailing, 0)
+                    .padding(.trailing, 12)
                     .transition(.opacity.combined(with: .scale(scale: Motion.dropdownPreScale, anchor: .topTrailing)))
                 }
                 .zIndex(20)

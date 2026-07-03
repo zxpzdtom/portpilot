@@ -4,6 +4,22 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+## 0.1.4 - 2026-07-03
+
+### Added
+
+- Added real per-process icons in menu bar rows, with lazy loading and caching outside the scan path.
+- Added lightweight hover tooltips for row actions.
+- Added PID metadata to each menu bar row.
+
+### Changed
+
+- Refined the menu bar popover surfaces, spacing, scrollbar layout, and sort dropdown styling.
+- Reworked fallback CLI icons to better match real macOS app icons.
+- Improved icon resolution for helper processes by resolving nested helper apps back to their host app bundle.
+- Renamed port exposure labels to "Local only", "All interfaces", and "Specific IP" for clearer networking semantics.
+- Changed the default sort to runtime ascending.
+
 ## 0.1.3 - 2026-07-01
 
 ### Changed

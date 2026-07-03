@@ -58,19 +58,31 @@ struct CompactMetric: View {
         .background(metricBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .stroke(Color.white.opacity(colorScheme == .dark ? 0.05 : 0.24), lineWidth: 0.5)
+                .stroke(Color.primary.opacity(colorScheme == .dark ? 0.08 : 0.045), lineWidth: 0.6)
         }
-        .shadow(color: .black.opacity(0.045), radius: 7, x: 0, y: 2)
+        .shadow(color: .black.opacity(colorScheme == .dark ? 0.10 : 0.040), radius: 7, x: 0, y: 2)
     }
 
     private var metricBackground: some ShapeStyle {
         LinearGradient(
             colors: [
-                Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.78 : 0.92),
-                Color(nsColor: .controlBackgroundColor).opacity(colorScheme == .dark ? 0.62 : 0.74)
+                metricTopSurface,
+                metricBottomSurface
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
+    }
+
+    private var metricTopSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor)
+            : Color(red: 0.990, green: 0.993, blue: 0.997)
+    }
+
+    private var metricBottomSurface: Color {
+        colorScheme == .dark
+            ? Color(nsColor: .controlBackgroundColor).opacity(0.86)
+            : Color(red: 0.972, green: 0.977, blue: 0.984)
     }
 }
