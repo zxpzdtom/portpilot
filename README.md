@@ -77,10 +77,10 @@ The bundled `SUPublicEDKey` verifies signed update archives. Keep the matching S
 After building a release zip and uploading it to GitHub Releases, regenerate the appcast:
 
 ```bash
-RELEASE_TAG=v0.1.4 Scripts/generate_appcast.sh dist/releases
+RELEASE_TAG=v0.1.5 Scripts/generate_appcast.sh dist/releases
 ```
 
-`dist/releases` should contain the release archive, for example `PortPilot-0.1.4.zip`.
+`dist/releases` should contain the release archive, for example `PortPilot-0.1.5.zip`.
 
 ## Project structure
 

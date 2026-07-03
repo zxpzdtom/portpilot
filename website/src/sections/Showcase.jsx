@@ -13,7 +13,7 @@ export function Showcase() {
               align="left"
               eyebrow="Native surface"
               title="小窗口就是全部工作区。"
-              body="PortPilot 不需要完整面板。打开菜单栏 popover，就能搜索、排序、复制、打开、结束进程和检查更新。"
+              body="PortPilot 不需要完整面板。打开菜单栏 popover，就能看到真实进程图标、PID、运行时长、资源占用，并完成搜索、排序、复制、打开、结束进程和检查更新。"
             />
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {releaseFacts.map((fact) => (
@@ -49,12 +49,12 @@ export function Showcase() {
         </div>
 
         <div className="relative z-10 mt-14 grid gap-4 md:grid-cols-3">
-          {['Menu bar only', 'Hover actions', 'Manual refresh'].map((item, index) => (
+          {['Real process icons', 'Hover actions', 'Manual refresh'].map((item, index) => (
             <div key={item} className="rounded-[28px] border border-white/10 bg-white/[0.045] p-6">
               <div className="font-mono text-xs text-cyan-200/70">0{index + 1}</div>
               <div className="mt-4 text-xl font-semibold tracking-[-0.035em] text-white">{item}</div>
               <p className="mt-3 text-sm leading-6 text-white/45">
-                {index === 0 && '没有完整面板，所有核心操作都在菜单栏 popover 内完成。'}
+                {index === 0 && '真实 macOS app 图标按需获取并缓存；无图标 CLI 使用一致的 exec / bun 回退图标。'}
                 {index === 1 && '鼠标悬停端口行，打开、复制和终止操作会在行内出现。'}
                 {index === 2 && '打开时刷新，也可以手动刷新；不会在后台持续轮询。'}
               </p>

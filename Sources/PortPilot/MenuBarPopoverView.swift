@@ -258,8 +258,9 @@ struct MenuBarPopoverView: View {
                 .buttonStyle(FooterQuitButtonStyle())
             }
         }
-        .frame(height: 26)
-        .offset(y: -4)
+        .frame(height: 24)
+        .padding(.top, -2)
+        .offset(y: 1)
         .staggeredAppear(delay: 0.2)
     }
 

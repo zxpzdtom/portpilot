@@ -4,6 +4,13 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+## 0.1.5 - 2026-07-03
+
+### Changed
+
+- Updated the landing page product mock to match the current menu bar UI, including real process icons, fallback CLI icons, PID metadata, runtime sorting, and current scope labels.
+- Tightened the menu bar popover footer spacing for a more balanced bottom edge.
+
 ## 0.1.4 - 2026-07-03
 
 ### Added
