@@ -113,7 +113,7 @@ function PortRow({ port, selected, activeStep }) {
         <div className="mt-1 truncate font-mono text-[10.5px] font-medium text-zinc-500">PID {port.pid} · {port.runtime}</div>
       </div>
       <div className="relative flex w-[70px] justify-end">
-        <div className={`text-right transition duration-200 group-hover/port-row:scale-95 group-hover/port-row:opacity-0 ${showActions ? 'scale-95 opacity-0' : 'opacity-100'}`}>
+        <div className={`pointer-events-none text-right transition duration-200 group-hover/port-row:scale-95 group-hover/port-row:opacity-0 ${showActions ? 'scale-95 opacity-0' : 'opacity-100'}`}>
           <div className="font-mono text-[12px] font-semibold text-zinc-500">{port.cpu}</div>
           {port.memory && <div className="mt-1 font-mono text-[11px] font-bold text-fuchsia-500">{port.memory}</div>}
         </div>
@@ -145,7 +145,7 @@ function ActionIcon({ label, danger = false, children }) {
       }`}
     >
       {children}
-      <span className="pointer-events-none absolute bottom-[calc(100%+6px)] left-1/2 z-50 -translate-x-1/2 rounded-md bg-zinc-950/86 px-1.5 py-1 text-[10px] font-medium text-white opacity-0 shadow-lg transition duration-150 group-hover/action:translate-y-[-1px] group-hover/action:opacity-100">
+      <span className="pointer-events-none absolute right-[calc(100%+6px)] top-1/2 z-50 -translate-y-1/2 whitespace-nowrap rounded-md bg-zinc-950/86 px-1.5 py-1 text-[10px] font-medium leading-none text-white opacity-0 shadow-lg transition duration-150 group-hover/action:-translate-x-0.5 group-hover/action:opacity-100">
         {label}
       </span>
     </span>
