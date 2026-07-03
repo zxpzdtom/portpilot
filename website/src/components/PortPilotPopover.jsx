@@ -153,26 +153,21 @@ function ActionIcon({ label, danger = false, children }) {
 }
 
 function ProcessIcon({ kind }) {
-  if (kind === 'claude') {
-    return (
-      <div className="grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-zinc-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
-        <span className="h-[21px] w-[21px] rounded-full bg-[conic-gradient(from_25deg,#ffca63,#6b4eff,#0b1020,#ff7b54,#ffca63)] shadow-[0_0_8px_rgba(255,151,75,0.34)]" />
-      </div>
-    )
-  }
+  const asset = {
+    chrome: '/assets/process-icons/chrome.png',
+    clash: '/assets/process-icons/clashx-pro.png',
+    figma: '/assets/process-icons/figma.png',
+    mastergo: '/assets/process-icons/mastergo.png',
+  }[kind]
 
-  if (kind === 'zed') {
-    return (
-      <div className="grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-[#151719] font-mono text-[13px] font-bold text-zinc-100 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
-        Z
-      </div>
-    )
-  }
+  if (asset) return <img src={asset} alt="" className="h-[30px] w-[30px] rounded-[8px] shadow-[0_1px_3px_rgba(15,23,42,0.25)] ring-1 ring-black/10" />
+
+  if (kind === 'node') return <NodeIcon />
 
   if (kind === 'bun') {
     return (
-      <div className="grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-[#111] font-mono text-[8px] font-bold text-orange-400 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
-        bun
+      <div className="relative grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-[#17120e] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
+        <span className="grid h-[20px] w-[20px] place-items-center rounded-full bg-[#f5d7a8] font-mono text-[7px] font-black text-[#3a2215] shadow-[inset_0_-1px_0_rgba(78,45,22,0.22)]">bun</span>
       </div>
     )
   }
@@ -180,6 +175,18 @@ function ProcessIcon({ kind }) {
   return (
     <div className="grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-[#111] font-mono text-[8px] font-bold text-emerald-400 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
       exec
+    </div>
+  )
+}
+
+function NodeIcon() {
+  return (
+    <div className="grid h-[30px] w-[30px] place-items-center rounded-[8px] bg-[#102615] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14),0_1px_3px_rgba(15,23,42,0.25)]">
+      <svg viewBox="0 0 32 32" aria-hidden="true" className="h-[23px] w-[23px]">
+        <path fill="#68A063" d="M16 3 27.3 9.5v13L16 29 4.7 22.5v-13L16 3Z" />
+        <path fill="#8CC84B" d="M16 5.7 25 10.9v10.2l-9 5.2-9-5.2V10.9l9-5.2Z" />
+        <text x="16" y="19.7" textAnchor="middle" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace" fontSize="7" fontWeight="800" fill="#f8fff3">JS</text>
+      </svg>
     </div>
   )
 }

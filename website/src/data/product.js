@@ -18,18 +18,18 @@ export const navItems = [
 ]
 
 export const metrics = [
-  { label: '端口', value: '24', icon: Activity, tone: 'blue' },
-  { label: 'CPU', value: '13.3%', icon: Timer, tone: 'orange' },
-  { label: '内存', value: '1.59 GB', icon: MemoryStick, tone: 'violet' },
+  { label: '端口', value: '25', icon: Activity, tone: 'blue' },
+  { label: 'CPU', value: '15.4%', icon: Timer, tone: 'orange' },
+  { label: '内存', value: '1.93 GB', icon: MemoryStick, tone: 'violet' },
 ]
 
 export const ports = [
-  { port: 9527, app: 'bun', pid: '37375', scope: '仅本机', runtime: '12:20:30', cpu: '0.1%', memory: '34 MB', tone: 'green', icon: 'bun' },
-  { port: 54615, app: 'claude', pid: '85650', scope: '仅本机', runtime: '13:06:28', cpu: '0.0%', memory: '158.7 MB', tone: 'green', icon: 'claude' },
-  { port: 54618, app: 'claude', pid: '85650', scope: '仅本机', runtime: '13:06:28', cpu: '0.0%', memory: '158.7 MB', tone: 'green', icon: 'claude' },
-  { port: 44438, app: 'zed', pid: '54675', scope: '仅本机', runtime: '22:06', cpu: '0.0%', memory: '153.6 MB', tone: 'green', icon: 'zed' },
-  { port: 40678, app: 'mgmcp', pid: '40421', scope: '全网卡', runtime: '6天01:07', cpu: '0.0%', memory: '9.2 MB', tone: 'orange', icon: 'exec' },
-  { port: 26062, app: 'master-local-fonts-macos', pid: '40423', scope: '仅本机', runtime: '6天01:04', cpu: '0.0%', memory: '10 MB', tone: 'green', icon: 'exec' },
+  { port: 9222, app: 'Google Chrome', pid: '55136', scope: '仅本机', runtime: '8天12:32', cpu: '0.7%', memory: '377.8 MB', tone: 'green', icon: 'chrome' },
+  { port: 14013, app: 'Figma', pid: '42706', scope: '仅本机', runtime: '14天18:44', cpu: '1.0%', memory: '345.6 MB', tone: 'green', icon: 'figma' },
+  { port: 26162, app: 'MasterGo Helper', pid: '40412', scope: '全网卡', runtime: '6天01:04', cpu: '0.0%', memory: '24.8 MB', tone: 'orange', icon: 'mastergo' },
+  { port: 7777, app: 'ClashX Pro', pid: '3078', scope: '指定IP', runtime: '15天11:56', cpu: '2.3%', memory: '126.6 MB', tone: 'blue', icon: 'clash' },
+  { port: 5173, app: 'node', pid: '56941', scope: '仅本机', runtime: '01:56', cpu: '0.0%', memory: '111.4 MB', tone: 'green', icon: 'node' },
+  { port: 9527, app: 'bun', pid: '37375', scope: '仅本机', runtime: '13:29:57', cpu: '0.1%', memory: '35.1 MB', tone: 'green', icon: 'bun' },
 ]
 
 export const features = [
