@@ -217,6 +217,34 @@ struct MenuBarPopoverView: View {
                 .zIndex(20)
             }
         }
+        .overlayPreferenceValue(ActionTooltipPreferenceKey.self) { preferences in
+            GeometryReader { proxy in
+                if let preference = preferences.last {
+                    let rect = proxy[preference.anchor]
+                    FloatingActionTooltip(title: preference.title)
+                        .position(
+                            x: tooltipX(for: rect, in: proxy.size),
+                            y: tooltipY(for: rect, placement: preference.placement, in: proxy.size)
+                        )
+                        .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: preference.placement.scaleAnchor)))
+                        .zIndex(40)
+                }
+            }
+            .allowsHitTesting(false)
+        }
+    }
+
+    private func tooltipX(for rect: CGRect, in size: CGSize) -> CGFloat {
+        min(max(rect.midX, 32), size.width - 32)
+    }
+
+    private func tooltipY(for rect: CGRect, placement: ActionTooltipPlacement, in size: CGSize) -> CGFloat {
+        switch placement {
+        case .above:
+            return max(rect.minY - 16, 14)
+        case .below:
+            return min(rect.maxY + 16, size.height - 14)
+        }
     }
 
     private var footer: some View {

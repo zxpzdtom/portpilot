@@ -4,6 +4,13 @@ All notable changes to PortPilot are documented here.
 
 ## Unreleased
 
+## 0.1.6 - 2026-07-05
+
+### Fixed
+
+- Render row action tooltips from the popover overlay layer so the first row is no longer clipped by the scroll view or neighboring rows.
+- Restored normal scroll clipping so list content no longer covers the sort control while scrolling.
+
 ## 0.1.5 - 2026-07-03
 
 ### Changed

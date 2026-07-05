@@ -286,24 +286,6 @@ enum ActionTooltipPlacement {
     case above
     case below
 
-    var alignment: Alignment {
-        switch self {
-        case .above:
-            return .top
-        case .below:
-            return .bottom
-        }
-    }
-
-    var offsetY: CGFloat {
-        switch self {
-        case .above:
-            return -24
-        case .below:
-            return 24
-        }
-    }
-
     var scaleAnchor: UnitPoint {
         switch self {
         case .above:
@@ -314,6 +296,20 @@ enum ActionTooltipPlacement {
     }
 }
 
+struct ActionTooltipPreference {
+    let title: String
+    let placement: ActionTooltipPlacement
+    let anchor: Anchor<CGRect>
+}
+
+struct ActionTooltipPreferenceKey: PreferenceKey {
+    static var defaultValue: [ActionTooltipPreference] = []
+
+    static func reduce(value: inout [ActionTooltipPreference], nextValue: () -> [ActionTooltipPreference]) {
+        value.append(contentsOf: nextValue())
+    }
+}
+
 struct ActionTooltip<Content: View>: View {
     let title: String
     let placement: ActionTooltipPlacement
@@ -321,29 +317,11 @@ struct ActionTooltip<Content: View>: View {
 
     @State private var isHovering = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         content
-            .overlay(alignment: placement.alignment) {
-                if isHovering {
-                    Text(title)
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.primary)
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: false)
-                        .padding(.horizontal, 7)
-                        .frame(height: 22)
-                        .background(tooltipBackground)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                                .strokeBorder(Color.primary.opacity(colorScheme == .dark ? 0.10 : 0.07), lineWidth: 0.6)
-                        }
-                        .shadow(color: .black.opacity(colorScheme == .dark ? 0.18 : 0.08), radius: 8, x: 0, y: 4)
-                        .offset(y: placement.offsetY)
-                        .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: placement.scaleAnchor)))
-                        .zIndex(2)
-                }
+            .anchorPreference(key: ActionTooltipPreferenceKey.self, value: .bounds) { anchor in
+                isHovering ? [ActionTooltipPreference(title: title, placement: placement, anchor: anchor)] : []
             }
             .onHover { hovering in
                 let animation = reduceMotion
@@ -353,6 +331,28 @@ struct ActionTooltip<Content: View>: View {
                     isHovering = hovering
                 }
             }
+    }
+}
+
+struct FloatingActionTooltip: View {
+    let title: String
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        Text(title)
+            .font(.system(size: 11.5, weight: .semibold))
+            .foregroundStyle(.primary)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 8)
+            .frame(height: 22)
+            .background(tooltipBackground, in: RoundedRectangle(cornerRadius: 11, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 11, style: .continuous)
+                    .strokeBorder(Color.primary.opacity(colorScheme == .dark ? 0.09 : 0.06), lineWidth: 0.55)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
+            .shadow(color: .black.opacity(colorScheme == .dark ? 0.16 : 0.065), radius: 6, x: 0, y: 3)
     }
 
     private var tooltipBackground: some ShapeStyle {

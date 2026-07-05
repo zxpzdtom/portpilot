@@ -77,10 +77,10 @@ https://raw.githubusercontent.com/zxpzdtom/portpilot/refs/heads/main/appcast.xml
 构建 release zip 并上传到 GitHub Releases 后，重新生成 appcast：
 
 ```bash
-RELEASE_TAG=v0.1.2 Scripts/generate_appcast.sh dist/releases
+RELEASE_TAG=v0.1.6 Scripts/generate_appcast.sh dist/releases
 ```
 
-`dist/releases` 里应放置对应更新包，例如 `PortPilot-0.1.2.zip`。
+`dist/releases` 里应放置对应更新包，例如 `PortPilot-0.1.6.zip`。
 
 ## 项目结构
 

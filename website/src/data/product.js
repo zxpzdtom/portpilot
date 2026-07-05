@@ -43,7 +43,7 @@ export const features = [
 ]
 
 export const releaseFacts = [
-  { label: 'Latest', value: 'v0.1.5' },
+  { label: 'Latest', value: 'v0.1.6' },
   { label: 'Platform', value: 'macOS 14+' },
   { label: 'Arch', value: 'Apple Silicon' },
 ]
